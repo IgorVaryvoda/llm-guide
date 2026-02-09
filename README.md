@@ -9,7 +9,9 @@ Practical tips for getting the most out of LLMs and Claude Code.
 3. **[Install Skills & MCP servers](#3-use-skills-and-mcp-servers)** — [skills.sh](https://skills.sh/) for domain expertise, MCP for tool access.
 4. **[Manage your context](#4-context-is-king)** — Use `/clear` between subtasks. Offload heavy work to subagents.
 5. **[Set up pre-hooks](#5-use-pre-hooks-for-security-and-code-practice-warnings)** — Auto-block dangerous commands, scan for secrets, lint on write.
-6. You can combine subagents with skills, skills with other skills and so on.
+6. **[Use plan mode for non-trivial tasks](#6-workflow-plan-mode-and-how-to-actually-use-this-thing)** — Plan first, execute second. `/clear` between tasks.
+7. **[Document big tasks](#7-document-everything-especially-big-tasks)** — Spec docs + TODO files survive across sessions. Claude can't remember, but it can read.
+8. You can combine subagents with skills, skills with other skills and so on.
 ---
 
 ## 1. Use a Subscription Plan (Unless You Enjoy Bankruptcy)
@@ -193,6 +195,97 @@ Bonus: [add Warcraft peon sounds via hooks](https://x.com/delba_oliveira/status/
 
 ---
 
+## 6. Workflow: Plan Mode and How to Actually Use This Thing
+
+Claude Code defaults to just doing stuff — reading files, writing code, running commands. For small tasks that's fine. For anything non-trivial, you want **plan mode**.
+
+**What plan mode does:**
+
+You type `/plan` or tell Claude to "plan this first". It switches into a mode where it can only research (read files, search, explore) but **cannot write or execute anything**. It produces a step-by-step plan, then asks for your approval before touching any code.
+
+**Why this matters:**
+
+Without plan mode, Claude will just start coding immediately. For a complex task this often means it goes down the wrong path, burns through context, and you end up with a mess you need to undo. Plan mode forces it to think before acting — explore the codebase, identify the right files, consider trade-offs, and lay out the approach.
+
+**When to use it:**
+
+- Any task that touches more than 2-3 files.
+- Refactors, new features, architectural changes.
+- When you're not sure how something should be implemented.
+- When the codebase is unfamiliar — let Claude explore first.
+
+**When to skip it:**
+
+- Bug fixes where you already know the file and the problem.
+- Small edits, typos, one-liner changes.
+- Tasks where you've already given very specific instructions.
+
+**The ideal workflow looks like this:**
+
+1. `/clear` — Start with a clean context.
+2. Describe the task. For anything non-trivial, tell Claude to plan first or use `/plan`.
+3. Review the plan. Push back, ask questions, refine.
+4. Approve the plan. Claude switches back to act mode and executes.
+5. `/clear` — Clean up context before the next task.
+
+**Combining plan mode with subagents:**
+
+For large tasks, the best pattern is: plan in the main context, then delegate execution steps to subagents. This keeps your main context clean (just the plan + results) while subagents handle the messy details of reading files, running tests, and making changes.
+
+**Tip:** You can also tell Claude to "plan this, but don't enter plan mode" — it'll write out a plan in the normal conversation without the formal mode switch. Useful when you want a quick outline but don't need the full ceremony.
+
+---
+
+## 7. Document Everything, Especially Big Tasks
+
+Context disappears between sessions. You `/clear`, you close the terminal, you come back tomorrow — and Claude has no idea what you were doing. For anything that spans multiple sessions, **write it down in files Claude can read**.
+
+**Spec docs for big features:**
+
+Before you start building, enter plan mode and have Claude write a spec doc. Not a novel — a concise markdown file that captures the what, why, and how. Put it somewhere in the repo (e.g., `docs/specs/feature-name.md`).
+
+This serves two purposes:
+1. It forces you and Claude to agree on scope before any code is written.
+2. Next session, you point Claude at the spec and it has full context immediately — no re-explaining.
+
+**TODO files for tracking progress:**
+
+For multi-session tasks, keep a `TODO.md` or `tasks.md` in the repo. Have Claude update it as work progresses — what's done, what's next, what's blocked. When you start a new session, Claude reads the file and picks up where it left off.
+
+A simple format works:
+
+```markdown
+# Auth Refactor
+
+## Done
+- Migrated session store from Redis to Postgres
+- Updated login endpoint to use new token format
+
+## In Progress
+- Updating middleware to validate new tokens (src/middleware/auth.ts)
+
+## Next
+- Update all protected routes to use new middleware
+- Write integration tests
+- Update API docs
+```
+
+**Why this matters:**
+
+- Claude's memory between sessions is limited to a short summary. A spec doc or TODO file gives it the full picture.
+- It also helps *you* — if you're juggling multiple features, a quick glance at the TODO tells you where each one stands.
+- It's version-controlled. You can see how the plan evolved, revert bad decisions, and share progress with teammates.
+
+**The pattern:**
+
+1. Enter plan mode. Have Claude explore, research, and write a spec doc.
+2. Review and approve the spec.
+3. Create a TODO file with the implementation steps.
+4. Work through the steps across sessions, updating the TODO as you go.
+5. Each new session: "Read `docs/specs/feature.md` and `TODO.md`, then continue."
+
+---
+
 ## Quick Reference
 
 | Tip | Why |
@@ -202,6 +295,8 @@ Bonus: [add Warcraft peon sounds via hooks](https://x.com/delba_oliveira/status/
 | Skills + MCP servers | Domain expertise + tool access |
 | Subagents | Keep context clean, parallelize work |
 | Pre-hooks | Automated guardrails against mistakes |
+| Plan mode | Think before acting, avoid wasted context |
+| Spec docs + TODOs | Persist context across sessions |
 
 ---
 
