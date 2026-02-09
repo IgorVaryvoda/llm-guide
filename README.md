@@ -23,7 +23,7 @@ This brings us to another important question: which harness to use? Anthropic is
 
 **What to do:**
 
-- **Claude Pro / Max plans** — Pro plan has pathetic limits, so just use it to get the feel of the workflow. Upgrade to Max 100 plan when you're ready for more. I've been able to use the equivalent of $2-3k per month API credits on a Max 200 subscription easily.
+- **Claude Pro / Max plans** — The Pro plan has pathetic limits, so just use it to get the feel of the workflow. Upgrade to Max 100 plan when you're ready for more. I've been able to use the equivalent of $2-3k per month API credits on a Max 200 subscription easily.
 - **Pick the right model for the task.** Usually it's Opus 4.6. Everything else can be used via subagents for simple tasks like code search. (Haiku is really fast and nice)
 
 ---
@@ -44,9 +44,10 @@ Everyone is moving to standardize the file as [AGENTS.md](https://agents.md/), b
 
 **What to put in it:**
 
-- **Build & test commands** — `npm run dev && npm run test` etc.
-- **Code style rules** — "Use `type` not `interface`". Whatever your team argues about, settle it here.
-- **Do NOT rules** — "Never modify `schema.prisma` without asking first", "Don't add comments to translation files". These are the most valuable — they prevent mistakes before they happen.
+- An intro sentence explaining the project — what it is, what it does, who it is for, what problems it solves.
+- **Build & test commands** — `bun run dev && bun run test` (if not using npm; if using npm, this is redundant — the LLM is smart enough to figure stuff out). If the setup is complex (e.g. a boatload of tests, different build commands and whatnot - move instructions to a separate large doc and reference it in the main claude.md file)
+- **Code style rules** — "Use `type` not `interface`". Whatever your team argues about, settle it here. It also makes sense to move the instructions out of the main claude.md file, e.g. have a separate typescript.md file with all of the instructions.
+- **Do NOT rules** — "Never modify `schema.prisma` without asking first", "Don't add comments to translation files". These are the most valuable — they prevent mistakes before they happen. This can help, but is sometimes unreliable.
 - **Stack specifics** — Don't just say "it's a React 18 project with PostgreSQL" — actually link the appropriate docs. For example, Next.js has a codemod that generates an AGENTS.md with a full docs index:
 
 ```
@@ -205,7 +206,7 @@ You type `/plan` or tell Claude to "plan this first". It switches into a mode wh
 
 **Why this matters:**
 
-Without plan mode, Claude will just start coding immediately. For a complex task this often means it goes down the wrong path, burns through context, and you end up with a mess you need to undo. Plan mode forces it to think before acting — explore the codebase, identify the right files, consider trade-offs, and lay out the approach.
+Without plan mode, Claude will just start coding immediately. For a complex task, this often means it goes down the wrong path, burns through context, and you end up with a mess you need to undo. Plan mode forces it to think before acting — explore the codebase, identify the right files, consider trade-offs, and lay out the approach.
 
 **When to use it:**
 
