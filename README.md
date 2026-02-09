@@ -18,7 +18,7 @@ Practical tips for getting the most out of LLMs and Claude Code.
 
 Claude API usage on pay-as-you-go pricing adds up fast — especially with Opus. A single heavy coding session can cost more than a monthly subscription.
 
-This brings us to another important question: which harness to use? Anthropic is known to be very strict about using their subscription plans on harnesses other than claude code or stuff that doesn't use Anthropic agent SDK, they can ban your account if you use it with stuff like OpenCode. This sucks and limits your options to Claude Code basically.
+This brings us to another important question: which harness to use? Anthropic is known to be very strict about using their subscription plans with harnesses other than claude code or stuff that doesn't use Anthropic agent SDK, they can ban your account if you use it with stuff like OpenCode. This sucks and limits your options to Claude Code basically.
 
 **What to do:**
 
