@@ -12,13 +12,14 @@ Practical tips for getting the most out of LLMs and Claude Code.
 6. **[Use plan mode for non-trivial tasks](#6-workflow-plan-mode-and-how-to-actually-use-this-thing)** — Plan first, execute second. `/clear` between tasks.
 7. **[Document big tasks](#7-document-everything-especially-big-tasks)** — Spec docs + TODO files survive across sessions. Claude can't remember, but it can read.
 8. You can combine subagents with skills, skills with other skills and so on.
+
 ---
 
 ## 1. Use a Subscription Plan (Unless You Enjoy Bankruptcy)
 
 Claude API usage on pay-as-you-go pricing adds up fast — especially with Opus. A single heavy coding session can cost more than a monthly subscription.
 
-This brings us to another important question: which harness to use? Anthropic is known to be very strict about using their subscription plans with harnesses other than claude code or stuff that doesn't use Anthropic agent SDK, they can ban your account if you use it with stuff like OpenCode. This sucks and limits your options to Claude Code basically.
+This brings us to another important question: which harness to use? Anthropic is known to be very strict about using their subscription plans with harnesses other than Claude Code or stuff that doesn't use the Anthropic Agent SDK — they can ban your account if you use it with stuff like OpenCode. This sucks and limits your options to Claude Code basically.
 
 **What to do:**
 
@@ -100,7 +101,6 @@ Claude Code becomes dramatically more useful when you extend it with **Skills** 
 - Browse and install community skills from [skills.sh](https://skills.sh/).
 - Skills live in `~/.claude/skills/` and activate automatically based on context.
 - You invoke them with slash commands (e.g., `/frontend-design`, `/vercel-react-best-practices`) or they trigger automatically when relevant. **Automatic triggering is unreliable as hell, so invoke skills with slash commands or tell the LLM to use a particular skill or set of skills directly.**
-
 
 **Recommended skills:**
 
